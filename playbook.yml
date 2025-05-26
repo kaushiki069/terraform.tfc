@@ -1,0 +1,19 @@
+---
+- name: Use Terraform project
+  hosts: localhost
+  connection: local
+  # vars:
+  #   ansible_python_interpreter: ~/venvinfo/bin/python
+  vars:
+    terraform_token: "{{ token }}"
+    terraform_org: "{{ organization }}"
+  tasks:
+    - name: List terraform projects
+      terraform.tfc.project:
+        action: list
+        token: "{{ terraform_token }}"
+        organization: "{{ terraform_org }}"
+      register: output
+    - name: Show result
+      debug:
+        var: output.output
