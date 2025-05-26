@@ -1,0 +1,9 @@
+namespace: terraform
+name: tfc
+version: 1.0.0
+readme: README.md
+authors:
+  - you@example.com
+description: Terraform tfc voia api
+license: MIT
+dependencies: {}
