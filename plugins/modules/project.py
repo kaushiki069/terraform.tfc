@@ -1,10 +1,11 @@
 from ansible.module_utils.basic import AnsibleModule
 import requests
+import os
 
-def list_projects(token,organization):
+def list_projects(organization):
     url = f"https://app.terraform.io/api/v2/organizations/{organization}/projects"
     headers = {
-        "Authorization": f"Bearer {token}",
+        "Authorization": f"Bearer {os.getenv('TFC_TOKEN')}",
         "Content-Type": "application/vnd.api+json",
     }
 
@@ -24,21 +25,19 @@ def main():
    module = AnsibleModule(
        argument_spec=dict(
            action=dict(type='str', required=False, default="list"),
-           token=dict(type='str', required=True, no_log=True),
            organization=dict(type='str', required=True)
        )
    )
 
 
    action = module.params['action']
-   token = module.params['token']
    organization = module.params['organization']
    result = {"changed": False, "action": action}
 
 
    try:
        if action == "list":
-           output = list_projects(token, organization)
+           output = list_projects(organization)
            result["changed"] = True
            result["message"] = "Projects listed successfully"
            result["output"] = output
